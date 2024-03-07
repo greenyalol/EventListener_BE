@@ -11,5 +11,8 @@ export class AuthController {
         return this.authService.findUserByEmail(email);
     }
 
-    //@Post('signup')
+    @Post('signup/:email')
+    async addUser(@Param('email') email): Promise<Auth[]> {
+        return this.authService.addUser(email);
+    }
 }

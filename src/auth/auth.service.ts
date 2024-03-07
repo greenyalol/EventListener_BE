@@ -10,5 +10,13 @@ export class AuthService {
     async findUserByEmail(email: string): Promise<Auth> {
         return await this.userModel.findOne({ email: email });
     }
+
+    async addUser(email: string): Promise<Auth[]> {
+        const doc = new this.userModel({
+            email,
+        })
+        await doc.save()
+        return await this.userModel.find();
+    }
 }
 
