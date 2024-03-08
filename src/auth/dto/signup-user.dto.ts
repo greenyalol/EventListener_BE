@@ -2,15 +2,17 @@ import {
   // IsDate,
   // IsInt,
   // IsOptional,
+  IsEmail,
   IsString,
-  // Min,
+  Length,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class SignupUserDto {
   @IsString()
+  @Length(6)
   password: string
 
-  @IsString()
+  @IsEmail( undefined, { message: 'Invalid email'})
   email: string
 
   // @IsString()
