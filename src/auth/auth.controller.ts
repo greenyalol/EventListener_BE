@@ -9,7 +9,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
-    @Get('login')
+    @Post('login')
     async loginUser(@Body() LoginUserDto: LoginUserDto): Promise<Token> {
         return this.authService.loginUser(LoginUserDto);
     }

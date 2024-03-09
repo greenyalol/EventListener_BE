@@ -38,7 +38,6 @@ export class Event {
 
     @Prop({type: Number})
     budget: number 
-
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
