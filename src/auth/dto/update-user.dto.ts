@@ -6,29 +6,35 @@ import {
   IsMobilePhone,
 } from 'class-validator';
 
-export class SignupUserDto {
+export class UpdateUserDto {
   @IsString()
   @Length(6)
+  @IsOptional()
   password: string
 
-  @IsEmail( undefined, { message: 'Invalid email'})
+  @IsEmail(undefined, { message: 'Invalid email' })
+  @IsOptional()
   email: string
 
   @IsString()
   @Length(1)
+  @IsOptional()
   firstName: string
 
   @IsString()
   @Length(1)
+  @IsOptional()
   lastName: string
 
   @IsMobilePhone()
+  @IsOptional()
   phone: string
 
   @IsString()
   @IsOptional()
   bio: string;
 
-  @IsString({each: true})
+  @IsString({ each: true })
+  @IsOptional()
   interests: string[]
 }
