@@ -8,17 +8,17 @@ import {
 } from 'class-validator';
 import { Auth } from 'src/auth/interfaces/auth.interface';
 
-export class CreateEventDto {
-    @IsString()
-    creator: string //change to user
-
+export class UpdateEventDto {
     @IsDateString()
+    @IsOptional()
     date: Date
 
     @IsString()
+    @IsOptional()
     address: string
 
     @IsString()
+    @IsOptional()
     topic: string
 
     @IsString()
@@ -26,6 +26,7 @@ export class CreateEventDto {
     place: string
 
     @IsString()
+    @IsOptional()
     category: string;
 
     @IsInt()
