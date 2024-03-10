@@ -2,6 +2,7 @@ import { Injectable, Param } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -25,11 +26,19 @@ export class EventsService {
         return await newEvent.save();
     }
 
-    async updateEvent(id: string, event: CreateEventDto): Promise<Event> {
+    async updateEvent(id: string, event: UpdateEventDto): Promise<Event> {
         return await this.eventModel.findByIdAndUpdate(id, event, { new: true });
     }
 
     async deleteEvent(id: string): Promise<Event> {
         return await this.eventModel.findByIdAndDelete(id);
+    }
+
+    async joinEvent(eventID: string, userID: string): Promise<Event> {
+        return await this.eventModel.findByIdAndUpdate(eventID, { $push: { "joinedBy": userID } }, { new: true });
+    }
+
+    async leaveEvent(eventID: string, userID: string): Promise<Event> {
+        return await this.eventModel.findByIdAndUpdate(eventID, { $pull: { "joinedBy": userID } }, { new: true });
     }
 }
