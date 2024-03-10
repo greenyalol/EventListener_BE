@@ -30,6 +30,7 @@ export class SignupUserDto {
   bio: string
 
   @IsString()
+  @IsOptional()
   imageURL: string
 
   @IsString({ each: true })

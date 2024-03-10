@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import keys from 'src/config/keys';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 
 @Module({
@@ -17,7 +18,7 @@ import keys from 'src/config/keys';
         signOptions: { expiresIn: '3600s' },
     }),],
     controllers: [AuthController],
-    providers: [AuthService, JwtStrategy],
+    providers: [AuthService, JwtStrategy, CloudinaryService],
 })
 export class AuthModule {
 

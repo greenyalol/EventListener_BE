@@ -35,6 +35,7 @@ export class UpdateUserDto {
   bio: string;
 
   @IsString()
+  @IsOptional()
   imageURL: string
 
   @IsString({ each: true })
