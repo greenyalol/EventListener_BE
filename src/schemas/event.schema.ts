@@ -10,8 +10,6 @@ export type EventDocument = HydratedDocument<Event>;
 export class Event {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
     creator: string //need change to user
-    // @Prop({type: String})
-    // creator: string //change to user 
 
     @Prop({ type: Date, required: true })
     date: Date
@@ -33,8 +31,9 @@ export class Event {
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], require: true, default: [] })
     savedBy: string[] //need change to user
-    // @Prop({type: [String]})
-    // joinedBy: string[] //change to user 
+
+    @Prop({type: String, default: ''})
+    imageURL: string
 
     @Prop({ type: Number })
     membersAmount: number
