@@ -6,12 +6,13 @@ export const UserSchema = new mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     phone: { type: String, required: true },
-    bio: String, 
-    interests: {type: [String], required: true },
+    imageURL: { type: String, required: true },
+    bio: String,
+    interests: { type: [String], required: true },
     savedEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
     createdEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
     joinedEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
-}, 
-{
-    timestamps: true
-})
+},
+    {
+        timestamps: true
+    })
