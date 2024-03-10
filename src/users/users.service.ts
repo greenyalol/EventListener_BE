@@ -15,7 +15,7 @@ export class UsersService {
     return await this.userModel.findById(id);
   }
 
-  async updateUserInfo(id: string, user: UpdateUserDto): Promise<Auth> {
+  async updateUserInfo(id: string, user: UpdateUserDto, imageURL: string): Promise<Auth> {
     const existingUser = await this.userModel.findById(id);
     if (!existingUser) {
       throw new BadRequestException('User not found');
@@ -34,12 +34,21 @@ export class UsersService {
       const hash = await bcrypt.hash(user.password, saltOrRounds);
       existingUser.password = hash;
     }
+    imageURL ? existingUser.imageURL = imageURL : undefined;
     user.email ? existingUser.email = user.email : undefined;
     user.bio ? existingUser.bio = user.bio : undefined;
     user.phone ? existingUser.phone = user.phone : undefined;
     user.interests ? existingUser.interests = user.interests : undefined;
 
     return await existingUser.save();
+  }
+
+  async getSavedEvents(id: string): Promise<Event[]> {
+    return await this.userModel.findById(id).select('savedEvents').populate('savedEvents');
+  }
+
+  async getJoinedEvents(id: string): Promise<Event[]> {
+    return await this.userModel.findById(id).select('joinedEvents').populate('joinedEvents');
   }
 }
 

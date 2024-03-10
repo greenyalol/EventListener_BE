@@ -34,6 +34,10 @@ export class UpdateUserDto {
   @IsOptional()
   bio: string;
 
+  @IsString()
+  @IsOptional()
+  imageURL: string
+
   @IsString({ each: true })
   @IsOptional()
   interests: string[]
