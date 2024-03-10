@@ -20,12 +20,12 @@ export class AuthService {
     async loginUser(user: LoginUserDto): Promise<Token> {
         const existingUser = await this.userModel.findOne({ email: user.email });
         if (!existingUser) {
-            throw new BadRequestException('Incorrect email or password')
+            throw new BadRequestException('Incorrect email or password');
         }
 
         const isPassworddMatch = await bcrypt.compare(user.password, existingUser.password);
         if (!isPassworddMatch) {
-            throw new BadRequestException('Incorrect email or password')
+            throw new BadRequestException('Incorrect email or password');
         }
 
         const payload = { email: existingUser.email, id: existingUser._id };
@@ -35,10 +35,17 @@ export class AuthService {
         };
     }
 
-    async createUser(user: SignupUserDto): Promise<Token> {
+    async createUser(user: SignupUserDto, imageURL: string): Promise<Token> {
+
+        const existingUser = await this.userModel.findOne({ email: user.email });
+        if (existingUser) {
+            throw new BadRequestException('Email already exists');
+        }
 
         const hash = await bcrypt.hash(user.password, saltOrRounds);
         user.password = hash;
+        console.log(imageURL)
+        user.imageURL = imageURL;
         const doc = new this.userModel(user);
         const newUser = await doc.save();
         const payload = { email: newUser.email, id: newUser._id };

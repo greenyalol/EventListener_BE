@@ -2,6 +2,7 @@ export interface Auth {
     email: string;
     password: string;
     firstName?: string;
+    imageURL?: string;
     lastName?: string;
     phone?: string;
     interests?: string[];

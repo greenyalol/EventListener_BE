@@ -11,7 +11,7 @@ export class SignupUserDto {
   @Length(6)
   password: string
 
-  @IsEmail( undefined, { message: 'Invalid email'})
+  @IsEmail(undefined, { message: 'Invalid email' })
   email: string
 
   @IsString()
@@ -27,8 +27,12 @@ export class SignupUserDto {
 
   @IsString()
   @IsOptional()
-  bio: string;
+  bio: string
 
-  @IsString({each: true})
+  @IsString()
+  @IsOptional()
+  imageURL: string
+
+  @IsString({ each: true })
   interests: string[]
 }
