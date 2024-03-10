@@ -14,6 +14,9 @@ export class Event {
     @Prop({ type: Date, required: true })
     date: Date
 
+    @Prop({ type: Number, required: true, default: 60 })
+    duration: number
+
     @Prop({ required: true, type: String })
     address: string
 
@@ -32,7 +35,7 @@ export class Event {
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], require: true, default: [] })
     savedBy: string[] //need change to user
 
-    @Prop({type: String, default: ''})
+    @Prop({ type: String, default: '' })
     imageURL: string
 
     @Prop({ type: Number })
