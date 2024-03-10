@@ -8,10 +8,10 @@ export type EventDocument = HydratedDocument<Event>;
 
 @Schema()
 export class Event {
-    // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-    // creator: Auth //need change to user
-    @Prop({type: String})
-    creator: string //change to user 
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+    creator: string //need change to user
+    // @Prop({type: String})
+    // creator: string //change to user 
 
     @Prop({ type: Date, required: true })
     date: Date
@@ -28,16 +28,19 @@ export class Event {
     @Prop({ required: true, type: [String] })
     category: string[];
 
-    // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-    // joinedBy: Auth[] //need change to user
-    @Prop({type: [String]})
-    joinedBy: string[] //change to user 
+    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], require: true, default: [] })
+    joinedBy: string[] //need change to user
 
-    @Prop({type: Number})
+    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], require: true, default: [] })
+    savedBy: string[] //need change to user
+    // @Prop({type: [String]})
+    // joinedBy: string[] //change to user 
+
+    @Prop({ type: Number })
     membersAmount: number
 
-    @Prop({type: Number})
-    budget: number 
+    @Prop({ type: Number })
+    budget: number
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
