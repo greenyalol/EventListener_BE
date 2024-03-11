@@ -44,8 +44,7 @@ export class AuthService {
 
         const hash = await bcrypt.hash(user.password, saltOrRounds);
         user.password = hash;
-        console.log(imageURL)
-        user.imageURL = imageURL;
+        imageURL ? user.imageURL = imageURL : undefined;
         const doc = new this.userModel(user);
         const newUser = await doc.save();
         const payload = { email: newUser.email, id: newUser._id };
