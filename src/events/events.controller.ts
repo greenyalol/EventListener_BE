@@ -67,6 +67,11 @@ export class EventsController {
     async joinEvent(@Request() req, @Param('id') id): Promise<Event> {
         const isMemberInEvent = await this.eventsService.isMember(req.user.id, id);
         const isEventExpire = await this.eventsService.isExpire(id);
+        const e: any = await this.eventsService.getEventByID(id);
+        const currentMembersAmount = e.joinedBy.length;
+        if (currentMembersAmount >= e.membersAmount) {
+            throw new BadRequestException('Event is full');
+        }
         if (isMemberInEvent) {
             throw new BadRequestException('You are already a participant of this event');
         } else {

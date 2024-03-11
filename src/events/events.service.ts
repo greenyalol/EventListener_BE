@@ -69,8 +69,9 @@ export class EventsService {
         await this.eventModel.findByIdAndUpdate(userID, { $pull: { "savedEvents": eventID } });
         return await this.eventModel.findByIdAndUpdate(eventID, { $pull: { "savedBy": userID } }, { new: true });
     }
-    
+
     async isSaved(userID: string, eventID: string): Promise<Event> {
         return await this.eventModel.findOne({ "_id": eventID, "savedBy": userID });
     }
+
 }
