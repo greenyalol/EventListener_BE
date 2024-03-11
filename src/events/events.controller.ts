@@ -43,8 +43,8 @@ export class EventsController {
     @Put('/:id')
     @UsePipes(new ValidationPipe())
     async updateEvent(@Request() req, @Body() updateEventDto: UpdateEventDto, @Param('id') id: string): Promise<Event> {
-        const myEvent: any = await this.eventsService.getEventByID(id);
-        if (myEvent.creator !== req.user.id) {
+        const isUserCreator = await this.eventsService.isCreator(req.user.id, id);
+        if (!isUserCreator) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         } else {
             return this.eventsService.updateEvent(id, updateEventDto);
@@ -54,8 +54,8 @@ export class EventsController {
     @UseGuards(JwtAuthGuard)
     @Delete('/:id')
     async deleteEvent(@Request() req, @Param('id') id): Promise<Event> {
-        const myEvent: any = await this.eventsService.getEventByID(id);
-        if (myEvent.creator !== req.user.id) {
+        const isUserCreator = await this.eventsService.isCreator(req.user.id, id);
+        if (!isUserCreator) {
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         } else {
             return this.eventsService.deleteEvent(id);
@@ -65,24 +65,50 @@ export class EventsController {
     @UseGuards(JwtAuthGuard)
     @Put('/join/:id')
     async joinEvent(@Request() req, @Param('id') id): Promise<Event> {
-        const myEvent: any = await this.eventsService.getEventByID(id);
-        if (!myEvent.joinedBy.some((member: any) => member === req.user.id)) {
-            return this.eventsService.joinEvent(id, req.user.id);
-        } else {
+        const isMemberInEvent = await this.eventsService.isMember(req.user.id, id);
+        const isEventExpire = await this.eventsService.isExpire(id);
+        const e: any = await this.eventsService.getEventByID(id);
+        const currentMembersAmount = e.joinedBy.length;
+        if (currentMembersAmount >= e.membersAmount) {
+            throw new BadRequestException('Event is full');
+        }
+        if (isMemberInEvent) {
             throw new BadRequestException('You are already a participant of this event');
+        } else {
+            if (isEventExpire) {
+                throw new BadRequestException('Event is expired');
+            } else {
+                return this.eventsService.joinEvent(id, req.user.id);
+            }
         }
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete('/leave/:id')
     async leaveEvent(@Request() req, @Param('id') id): Promise<Event> {
-        const myEvent: any = await this.eventsService.getEventByID(id);
-        if (myEvent.creator === req.user.id) {
+        const isUserCreator = await this.eventsService.isCreator(req.user.id, id);
+        if (isUserCreator) {
             throw new BadRequestException(`Creator can't leave his own event`);
         } else {
             return this.eventsService.leaveEvent(id, req.user.id);
         }
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Put('/save/:id')
+    async saveEvent(@Request() req, @Param('id') id): Promise<Event> {
+        const isSavedEvent = await this.eventsService.isSaved(req.user.id, id);
+        if (isSavedEvent) {
+            throw new BadRequestException('Already saved');
+        } else {
+            return this.eventsService.saveEvent(id, req.user.id);
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('/unsave/:id')
+    async unsaveEvent(@Request() req, @Param('id') id): Promise<Event> {
+        return this.eventsService.unsaveEvent(id, req.user.id);
+    }
 }
 
