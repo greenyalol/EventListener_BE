@@ -2,20 +2,22 @@ import {
     IsDate,
     IsDateString,
     IsInt,
+    IsObject,
     IsOptional,
     IsString,
     Min,
 } from 'class-validator';
 import { Auth } from 'src/auth/interfaces/auth.interface';
+import { Address } from './create-event.dto';
 
 export class UpdateEventDto {
     @IsDateString()
     @IsOptional()
     date: Date
 
-    @IsString()
+    @IsObject()
     @IsOptional()
-    address: string
+    address: Address
 
     @IsString()
     @IsOptional()

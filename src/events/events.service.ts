@@ -17,7 +17,7 @@ export class EventsService {
     }
 
     async getEventByID(id: string): Promise<Event> {
-        return await this.eventModel.findOne({ _id: id }).exec();
+        return await this.eventModel.findOne({ _id: id }).populate('joinedBy').populate('creator').exec();
     }
 
     async getEventsByCreator(id: string): Promise<Event[]> {

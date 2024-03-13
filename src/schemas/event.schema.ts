@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Auth } from 'src/auth/interfaces/auth.interface';
+import { Address } from 'src/events/dto/create-event.dto';
 
 export type EventDocument = HydratedDocument<Event>;
 
@@ -17,8 +18,8 @@ export class Event {
     @Prop({ type: Number, required: true, default: 60 })
     duration: number
 
-    @Prop({ required: true, type: String })
-    address: string
+    @Prop({ required: true, type: Address })
+    address: Address
 
     @Prop({ required: true, type: String })
     topic: string
