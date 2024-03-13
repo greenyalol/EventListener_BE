@@ -31,6 +31,10 @@ export class SignupUserDto {
 
   @IsString()
   @IsOptional()
+  city: string
+
+  @IsString()
+  @IsOptional()
   imageURL: string
 
   @IsString({ each: true })

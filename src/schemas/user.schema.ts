@@ -8,6 +8,7 @@ export const UserSchema = new mongoose.Schema({
     phone: { type: String, required: true },
     imageURL: { type: String },
     bio: String,
+    city: String,
     interests: { type: [String], required: true },
     savedEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
     createdEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
