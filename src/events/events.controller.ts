@@ -33,6 +33,7 @@ export class EventsController {
     @Post()
     @UsePipes(new ValidationPipe())
     async createEvent(@Request() req, @Body() createEventDto: CreateEventDto): Promise<Event> {
+        createEventDto.creator = req.user.id;
         const newEvent: any = await this.eventsService.createEvent(createEventDto);
         const newEventID = newEvent._id.toString();
         const e = await this.eventsService.joinEvent(newEventID, req.user.id);
@@ -64,7 +65,7 @@ export class EventsController {
 
     @UseGuards(JwtAuthGuard)
     @Put('/join/:id')
-    async joinEvent(@Request() req, @Param('id') id): Promise<Event> {
+    async joinEvent(@Request() req, @Param('id') id): Promise<Event> {        
         const isMemberInEvent = await this.eventsService.isMember(req.user.id, id);
         const isEventExpire = await this.eventsService.isExpire(id);
         const e: any = await this.eventsService.getEventByID(id);
@@ -86,6 +87,10 @@ export class EventsController {
     @UseGuards(JwtAuthGuard)
     @Delete('/leave/:id')
     async leaveEvent(@Request() req, @Param('id') id): Promise<Event> {
+        const isMemberInEvent = await this.eventsService.isMember(req.user.id, id);
+        if (!isMemberInEvent) {
+            throw new BadRequestException(`You are not a participant`);
+        }
         const isUserCreator = await this.eventsService.isCreator(req.user.id, id);
         if (isUserCreator) {
             throw new BadRequestException(`Creator can't leave his own event`);

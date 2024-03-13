@@ -1,12 +1,22 @@
 import {
+    IsArray,
     IsDate,
     IsDateString,
     IsInt,
+    IsObject,
     IsOptional,
     IsString,
     Min,
 } from 'class-validator';
 import { Auth } from 'src/auth/interfaces/auth.interface';
+
+export class Address {
+    @IsString()
+    type: string
+
+    @IsArray()
+    coordinates: number[]
+}
 
 export class CreateEventDto {
     @IsString()
@@ -15,8 +25,8 @@ export class CreateEventDto {
     @IsDateString()
     date: Date
 
-    @IsString()
-    address: string
+    @IsObject()
+    address: Address
 
     @IsString()
     topic: string
