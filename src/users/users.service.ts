@@ -28,6 +28,15 @@ export class UsersService {
       }
     }
 
+    if (user.city) {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${user.city}&format=json`)
+      const existingCity = await response.json();
+      console.log(existingCity)
+      if (!existingCity[0]) {
+        throw new BadRequestException('Invalid city name');
+      }
+    }
+
     user.firstName ? existingUser.firstName = user.firstName : undefined;
     user.lastName ? existingUser.lastName = user.lastName : undefined;
     if (user.password) {
@@ -49,6 +58,10 @@ export class UsersService {
 
   async getJoinedEvents(id: string): Promise<Event[]> {
     return await this.userModel.findById(id).select('joinedEvents').populate('joinedEvents');
+  }
+
+  async getUserById(id: string): Promise<Auth> {
+    return await this.userModel.findById(id).select('firstName lastName city interests');
   }
 }
 

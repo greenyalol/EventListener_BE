@@ -11,7 +11,6 @@ export const UserSchema = new mongoose.Schema({
     city: String,
     interests: { type: [String], required: true },
     savedEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
-    createdEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
     joinedEvents: { type: [mongoose.SchemaTypes.ObjectId], ref: "Event", default: [], required: true },
 },
     {
