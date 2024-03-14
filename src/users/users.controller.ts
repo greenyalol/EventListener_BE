@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Request, Put, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Put, Body, UploadedFile, UseInterceptors, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -36,5 +36,10 @@ export class UsersController {
   @Get('profile/joined')
   getJoinedEvents(@Request() req): Promise<Event[]> {
     return this.usersService.getJoinedEvents(req.user.id);
+  }
+
+  @Get(':id')
+  async getUserById(@Param() params: any): Promise<Auth> {
+    return this.usersService.getUserById(params.id);
   }
 }

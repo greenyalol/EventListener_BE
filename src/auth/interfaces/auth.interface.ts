@@ -8,7 +8,6 @@ export interface Auth {
     phone?: string;
     interests?: string[];
     savedEvents: string[];
-    createdEvents: string[];
     joinedEvents: string[];
     bio?: string;
 }
