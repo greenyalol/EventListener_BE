@@ -35,8 +35,8 @@ export class CreateEventDto {
     @IsOptional()
     place: string
 
-    @IsString()
-    category: string;
+    @IsArray()
+    category: string[];
 
     @IsInt()
     @Min(2)

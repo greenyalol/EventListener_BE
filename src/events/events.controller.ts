@@ -65,7 +65,7 @@ export class EventsController {
 
     @UseGuards(JwtAuthGuard)
     @Put('/join/:id')
-    async joinEvent(@Request() req, @Param('id') id): Promise<Event> {        
+    async joinEvent(@Request() req, @Param('id') id): Promise<Event> {
         const isMemberInEvent = await this.eventsService.isMember(req.user.id, id);
         const isEventExpire = await this.eventsService.isExpire(id);
         const e: any = await this.eventsService.getEventByID(id);
@@ -102,12 +102,7 @@ export class EventsController {
     @UseGuards(JwtAuthGuard)
     @Put('/save/:id')
     async saveEvent(@Request() req, @Param('id') id): Promise<Event> {
-        const isSavedEvent = await this.eventsService.isSaved(req.user.id, id);
-        if (isSavedEvent) {
-            throw new BadRequestException('Already saved');
-        } else {
-            return this.eventsService.saveEvent(id, req.user.id);
-        }
+        return this.eventsService.saveEvent(id, req.user.id);
     }
 
     @UseGuards(JwtAuthGuard)

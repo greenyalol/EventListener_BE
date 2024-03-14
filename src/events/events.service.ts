@@ -73,5 +73,4 @@ export class EventsService {
     async isSaved(userID: string, eventID: string): Promise<Event> {
         return await this.eventModel.findOne({ "_id": eventID, "savedBy": userID });
     }
-
 }

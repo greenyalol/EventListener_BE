@@ -1,4 +1,5 @@
 import {
+    IsArray,
     IsDate,
     IsDateString,
     IsInt,
@@ -27,9 +28,9 @@ export class UpdateEventDto {
     @IsOptional()
     place: string
 
-    @IsString()
+    @IsArray()
     @IsOptional()
-    category: string;
+    category: string[];
 
     @IsInt()
     @Min(2)
