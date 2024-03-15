@@ -31,10 +31,10 @@ export class UsersService {
     if (user.city) {
       const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${user.city}&format=json`)
       const existingCity = await response.json();
-      console.log(existingCity)
       if (!existingCity[0]) {
         throw new BadRequestException('Invalid city name');
       }
+      existingUser.city = user.city;
     }
 
     user.firstName ? existingUser.firstName = user.firstName : undefined;
