@@ -43,7 +43,7 @@ export class EventsService {
     }
 
     async leaveEvent(eventID: string, userID: string): Promise<Event> {
-        await this.eventModel.findByIdAndUpdate(userID, { $pull: { "joinedEvents": eventID } });
+        await this.userModel.findByIdAndUpdate(userID, { $pull: { "joinedEvents": eventID } });
         return await this.eventModel.findByIdAndUpdate(eventID, { $pull: { "joinedBy": userID } }, { new: true });
     }
 
