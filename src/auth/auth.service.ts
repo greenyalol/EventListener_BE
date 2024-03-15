@@ -44,6 +44,12 @@ export class AuthService {
             throw new BadRequestException('Email already exists');
         }
 
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${user.city}&format=json`)
+        const existingCity = await response.json();
+        if (!existingCity[0]) {
+            throw new BadRequestException('Invalid city name');
+        }
+
         const hash = await bcrypt.hash(user.password, saltOrRounds);
         user.password = hash;
         imageURL ? user.imageURL = imageURL : undefined;
