@@ -46,7 +46,6 @@ export class AuthService {
 
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${user.city}&format=json`)
         const existingCity = await response.json();
-        console.log(existingCity)
         if (!existingCity[0]) {
             throw new BadRequestException('Invalid city name');
         }
