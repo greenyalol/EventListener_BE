@@ -15,7 +15,7 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
     imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]), UsersModule, PassportModule,
     JwtModule.register({
         secret: keys.jwt_secret,
-        signOptions: { expiresIn: '7200s' },
+        signOptions: { expiresIn: '864000s' },
     }),],
     controllers: [AuthController],
     providers: [AuthService, JwtStrategy, CloudinaryService],
