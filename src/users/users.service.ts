@@ -61,7 +61,7 @@ export class UsersService {
   }
 
   async getUserById(id: string): Promise<Auth> {
-    return await this.userModel.findById(id).select('firstName lastName city interests');
+    return await this.userModel.findById(id).select('firstName lastName city interests imageURL createdAt');
   }
 }
 
