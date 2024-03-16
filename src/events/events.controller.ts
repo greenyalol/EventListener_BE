@@ -14,6 +14,12 @@ export class EventsController {
         return await this.eventsService.getAll();
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get('/categorized')
+    async getCategorizedEvents(@Request() req): Promise<Event[]> {
+        return await this.eventsService.getCategorizedEvents(req.user.id);
+    }
+
     @Get('/:id')
     async getEventByID(@Param('id') id: string): Promise<Event> {
         return await this.eventsService.getEventByID(id);

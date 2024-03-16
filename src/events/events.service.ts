@@ -73,4 +73,14 @@ export class EventsService {
     async isSaved(userID: string, eventID: string): Promise<Event> {
         return await this.eventModel.findOne({ "_id": eventID, "savedBy": userID });
     }
+
+    async getEventsByInterests(interests: string[]): Promise<Event[]> {
+        return await this.eventModel.find({ "category": { "$in": interests } });
+    }
+
+    async getCategorizedEvents(userID: string): Promise<Event[]> {
+        const u = await this.userModel.findById(userID);
+        const interests = u.interests[0].split(',');        
+        return this.getEventsByInterests(interests);
+    }
 }
